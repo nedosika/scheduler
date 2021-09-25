@@ -1,7 +1,8 @@
-import User from "../models/User.js";
 import bcrypt from "bcryptjs";
-import UserDTO from "../dtos/UserDTO.js";
 import jwt from "jsonwebtoken";
+
+import User from "../models/User.js";
+import UserDTO from "../dtos/UserDTO.js";
 
 const generateAccessToken = (id, roles) => {
     const payload = {

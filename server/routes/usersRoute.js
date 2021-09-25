@@ -127,7 +127,7 @@ router.post('/', roleMiddleware(["ADMIN"]), controller.create);
  *       500:
  *         description: Server error
  */
-router.put('/', roleMiddleware(["ADMIN"]), controller.update);
+router.put('/:id', roleMiddleware(["ADMIN"]), controller.update);
 
 /**
  * @swagger
@@ -139,6 +139,6 @@ router.put('/', roleMiddleware(["ADMIN"]), controller.update);
  *       200:
  *         description: User deleted successfully
  */
-router.delete('/', roleMiddleware(["ADMIN"]), controller.delete);
+router.delete('/:id', roleMiddleware(["ADMIN"]), controller.delete);
 
 export default router;

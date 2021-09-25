@@ -19,7 +19,7 @@ class UserController {
             }
             const {username, password} = req.body;
 
-            const user = await UsersService.createUser(username, password);
+            const user = await UsersService.addUser(username, password);
             res.json(user);
         } catch (e) {
             res.status(400).json({message: e.message});
@@ -37,8 +37,8 @@ class UserController {
 
     async update(req, res) {
         try {
-            const updatedUser = await UsersService.update(req.body);
-            return res.json(updatedUser);
+            const user = await UsersService.updateUser(req.params.id, req.body);
+            return res.json(user);
         } catch (e) {
             res.status(500).json(e.message)
         }
@@ -46,7 +46,7 @@ class UserController {
 
     async delete(req, res) {
         try {
-            const user = await UsersService.remove(req.params.id);
+            const user = await UsersService.removeUser(req.params.id);
             return res.json(user)
         } catch (e) {
             res.status(500).json(e)

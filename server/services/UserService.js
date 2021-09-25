@@ -1,6 +1,7 @@
+import bcrypt from "bcryptjs";
+
 import User from "../models/User.js";
 import UserDTO from "../dtos/UserDTO.js";
-import bcrypt from "bcryptjs";
 import Role from "../models/Role.js";
 
 class UserService {
@@ -24,7 +25,6 @@ class UserService {
 
     static async getUserByName(username) {
         try {
-            console.log("ss", username)
             const user = await User.findOne({username});
             return new UserDTO(user);
         } catch (e) {
@@ -32,7 +32,7 @@ class UserService {
         }
     }
 
-    static async createUser(username, password) {
+    static async addUser(username, password) {
         const candidate = await User.findOne({username});
 
         if (candidate) {
@@ -41,10 +41,25 @@ class UserService {
         const hashPassword = bcrypt.hashSync(password, 7);
         const userRole = await Role.findOne({value: "USER"});
 
-        const user = new User({username, password: hashPassword, roles: [userRole.value]});
+        const user = new User({
+            username,
+            password: hashPassword,
+            roles: [userRole.value]
+        });
         await user.save();
 
-        return user;
+        return new UserDTO(user);
+    }
+
+    static async updateUser(id, user) {
+        const updatedUser = await User.findOneAndUpdate({_id: id}, user);
+        return new UserDTO(updatedUser);
+    }
+
+    static async removeUser(id) {
+        const query = {_id: id};
+        const removedUser = await User.findOneAndDelete(query);
+        return new UserDTO(removedUser);
     }
 }
 

@@ -29,10 +29,12 @@ export default function Users() {
         <Layout title="Workers">
             <List sx={{width: '95%', margin: '0 auto', marginTop: 1, bgcolor: 'background.paper'}}>
                 {
-                    users.map(({avatar, username, description}, key) => {
+                    users.map(({id, avatar, username, description}, index) => {
                         return (
-                            <React.Fragment key={username}>
-                                <ListItemButton alignItems="flex-start">
+                            <React.Fragment key={id}>
+                                <ListItemButton alignItems="flex-start" onClick={() => {
+                                    history.push(`${RouteNames.EDIT_USER}/${id}`)
+                                }}>
                                     <ListItemAvatar>
                                         <Avatar alt="Remy Sharp" src={avatar}/>
                                     </ListItemAvatar>
@@ -41,7 +43,7 @@ export default function Users() {
                                         secondary={description}
                                     />
                                 </ListItemButton>
-                                {key < users.length - 1 && <Divider variant="inset" component="li"/>}
+                                {index < users.length - 1 && <Divider variant="inset" component="li"/>}
                             </React.Fragment>
                         );
                     })

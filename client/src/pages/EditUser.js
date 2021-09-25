@@ -1,5 +1,5 @@
 import React from 'react';
-import {useHistory} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 
 import Layout from "../components/Layout";
 import TextField from "@mui/material/TextField";
@@ -8,23 +8,29 @@ import Button from "@mui/material/Button";
 
 import useActions from "../hooks/useActions";
 import {RouteNames} from "../utils/consts";
+import {useSelector} from "react-redux";
 
-const CreateUser = () => {
-    const {addUser} = useActions();
+const EditUser = () => {
+    const {users} = useSelector(state => state.users);
+    const {updateUser} = useActions();
     const history = useHistory();
+    const {id: userId} = useParams();
+    console.log(users)
+    const user = users.filter((user) => user.id === userId)[0];
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
 
-        addUser({
+        updateUser({
+            id: userId,
             username: data.get('username'),
             password: data.get('password'),
         }).then(() => history.push(RouteNames.USERS));
     };
 
     return (
-        <Layout title="Create user">
+        <Layout title="Edit user">
             <Box
                 component="form"
                 sx={{
@@ -45,6 +51,7 @@ const CreateUser = () => {
                     name="username"
                     autoFocus
                     fullWidth
+                    defaultValue={user.username}
                     sx={{
                         maxWidth: 300,
                         width: '95%'
@@ -67,13 +74,12 @@ const CreateUser = () => {
                     type="submit"
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
-
                 >
-                    Create
+                    Update
                 </Button>
             </Box>
         </Layout>
     );
 };
 
-export default CreateUser;
+export default EditUser;
