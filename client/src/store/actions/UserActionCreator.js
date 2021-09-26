@@ -18,15 +18,17 @@ const UsersActionCreator = {
         dispatch(UsersActionCreator.showLoader());
         try {
             const response = await UsersService.fetchUsers();
-            dispatch(UsersActionCreator.setUsers(response?.data))
+            setTimeout(() => {
+                dispatch(UsersActionCreator.setUsers(response?.data));
+            }, 1000);
         } catch (e) {
             dispatch(UsersActionCreator.setError(e));
         }
     },
-    addUser: ({username, password}) => async (dispatch) => {
+    addUser: ({username, password, avatar}) => async (dispatch) => {
         dispatch(UsersActionCreator.showLoader());
         try {
-            const response = await UsersService.addUser(username, password);
+            const response = await UsersService.addUser(username, password, avatar);
 
             if (response?.data) {
                 dispatch({type: UsersActionType.ADD_USER, payload: response?.data});
@@ -39,9 +41,8 @@ const UsersActionCreator = {
         dispatch(UsersActionCreator.showLoader());
         try {
             const response = await UsersService.updateUser(id, username, password, avatar);
-
             if (response?.data) {
-                dispatch({type: UsersActionType.UPDATE_USER, payload: response.data});
+                dispatch({type: UsersActionType.UPDATE_USER, payload: {id, username, password, avatar}});
             }
         } catch (e) {
             dispatch(UsersActionCreator.setError(e));

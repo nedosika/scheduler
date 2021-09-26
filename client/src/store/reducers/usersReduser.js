@@ -8,7 +8,7 @@ const initialState = {
 
 const usersReducer = (state = initialState, action) => {
     switch (action.type) {
-        case UsersActionType.SET_IS_LOADING:
+        case UsersActionType.SET_IS_USERS_LOADING:
             return {...state, isLoading: true, error: null};
         case UsersActionType.SET_USERS:
             return {...state, isLoading: false, error: null, users: action.payload};

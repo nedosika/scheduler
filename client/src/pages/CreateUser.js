@@ -10,6 +10,7 @@ import Box from "@mui/material/Box";
 import SaveIcon from '@mui/icons-material/Save';
 import Stack from "@mui/material/Stack";
 import Fab from "@mui/material/Fab";
+import Button from "@mui/material/Button";
 
 const CreateUser = () => {
     const {addUser} = useActions();
@@ -18,6 +19,7 @@ const CreateUser = () => {
         username: '',
         password: ''
     });
+    const [selectedFile, setSelectedFile] = React.useState(null);
 
     const handleChange = (event) => {
         setState({
@@ -26,8 +28,12 @@ const CreateUser = () => {
         });
     };
 
+    const handleCapture = ({target}) => {
+        setSelectedFile(target.files[0]);
+    };
+
     const handleSubmit = () => {
-        addUser({...state})
+        addUser({...state, avatar: selectedFile})
             .then(() => history.push(RouteNames.USERS));
     };
 
@@ -71,6 +77,20 @@ const CreateUser = () => {
                         width: '95%'
                     }}
                 />
+                <Button
+                    variant="contained"
+                    component="label"
+                    sx={{
+                        marginTop: 2
+                    }}
+                >
+                    {selectedFile ? selectedFile.name : "Select Image"}
+                    <input
+                        type="file"
+                        hidden
+                        onChange={handleCapture}
+                    />
+                </Button>
             </Box>
             <Stack
                 direction="row"

@@ -5,12 +5,20 @@ export default class UsersService {
         return $api.get('/api/v1/users');
     }
 
-    static async addUser(username, password) {
-        return $api.post('/api/v1/users', {username, password});
+    static async addUser(username, password, avatar) {
+        const formData = new FormData();
+        formData.append('username', username);
+        formData.append('password', password);
+        formData.append('avatar', avatar);
+        return $api.post('/api/v1/users', formData);
     }
 
     static async updateUser(id, username, password, avatar) {
-        return $api.put('/api/v1/users/' + id, {username, password});
+        const formData = new FormData();
+        formData.append('username', username);
+        formData.append('password', password);
+        formData.append('avatar', avatar);
+        return $api.put('/api/v1/users/' + id, formData);
     }
 
     static async deleteUser(id) {

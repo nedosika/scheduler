@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import UserDTO from "../dtos/UserDTO.js";
 import Role from "../models/Role.js";
+import FileService from "./FileService.js";
 
 class UserService {
     static async getAll() {
@@ -32,7 +33,7 @@ class UserService {
         }
     }
 
-    static async addUser(username, password) {
+    static async addUser({username, password}, avatar) {
         const candidate = await User.findOne({username});
 
         if (candidate) {
@@ -40,10 +41,12 @@ class UserService {
         }
         const hashPassword = bcrypt.hashSync(password, 7);
         const userRole = await Role.findOne({value: "USER"});
+        const fileName = await FileService.saveFile(avatar);
 
         const user = new User({
             username,
             password: hashPassword,
+            avatar: fileName,
             roles: [userRole.value]
         });
         await user.save();
@@ -51,8 +54,11 @@ class UserService {
         return new UserDTO(user);
     }
 
-    static async updateUser(id, user) {
-        const updatedUser = await User.findOneAndUpdate({_id: id}, user);
+    static async updateUser(id, user, avatar) {
+        const fileName = await FileService.saveFile(avatar);
+        const hashPassword = bcrypt.hashSync(user.password, 7);
+        const updatedUser = await User.findOneAndUpdate({_id: id}, {...user, avatar: fileName, password: hashPassword});
+
         return new UserDTO(updatedUser);
     }
 

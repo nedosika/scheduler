@@ -17,9 +17,10 @@ class UserController {
             if (!errors.isEmpty()) {
                 return res.status(400).json({message: "Ошибка при регистрации", errors})
             }
-            const {username, password} = req.body;
+            const newUser = req.body;
+            const avatar = req.files?.avatar;
 
-            const user = await UsersService.addUser(username, password);
+            const user = await UsersService.addUser(newUser, avatar);
             res.json(user);
         } catch (e) {
             res.status(400).json({message: e.message});
@@ -37,7 +38,11 @@ class UserController {
 
     async update(req, res) {
         try {
-            const user = await UsersService.updateUser(req.params.id, req.body);
+            const userId = req.params.id;
+            const updatedUser = req.body;
+            const avatar = req.files?.avatar;
+
+            const user = await UsersService.updateUser(userId, updatedUser, avatar);
             return res.json(user);
         } catch (e) {
             res.status(500).json(e.message)

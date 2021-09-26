@@ -2,7 +2,7 @@ import * as uuid from 'uuid';
 import * as path from 'path';
 
 class FileService {
-    saveFile(file) {
+    static async saveFile(file) {
         try {
             const fileName = uuid.v4() + '.jpg';
             const filePath = path.resolve('static', fileName);
@@ -14,4 +14,4 @@ class FileService {
     }
 }
 
-export default new FileService();
+export default FileService;
