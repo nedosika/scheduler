@@ -57,8 +57,7 @@ class UserService {
     }
 
     static async removeUser(id) {
-        const query = {_id: id};
-        const removedUser = await User.findOneAndDelete(query);
+        const removedUser = await User.findOneAndDelete({_id: id});
         return new UserDTO(removedUser);
     }
 }

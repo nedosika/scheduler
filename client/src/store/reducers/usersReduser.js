@@ -3,29 +3,33 @@ import {UsersActionType} from "../types";
 const initialState = {
     isLoading: false,
     users: [],
-    error: ''
+    error: null
 };
 
 const usersReducer = (state = initialState, action) => {
     switch (action.type) {
-        case UsersActionType.FETCH_USERS:
-            return {...state, isLoading: true, error: ''};
-        case UsersActionType.FETCH_USERS_SUCCESSFULLY:
-            return {...state, isLoading: false, users: action.payload, error: ''};
-        case UsersActionType.FETCH_USERS_ERROR:
-            return {...state, error: action.payload, isLoading: false};
-        case UsersActionType.ADDING_USER:
-            return {...state, isLoading: true, error: ''};
-        case UsersActionType.ADDING_USER_SUCCESSFULLY:
-            return {...state, isLoading: false, error: ''};
-        case UsersActionType.ADDING_USER_ERROR:
-            return {...state, error: action.payload, isLoading: false};
-        case UsersActionType.UPDATING_USER:
-            return {...state, isLoading: true, error: ''};
-        case UsersActionType.UPDATING_USER_SUCCESSFULLY:
-            return {...state, isLoading: false, error: ''};
-        case UsersActionType.UPDATING_USER_ERROR:
-            return {...state, error: action.payload, isLoading: false};
+        case UsersActionType.SET_IS_LOADING:
+            return {...state, isLoading: true, error: null};
+        case UsersActionType.SET_USERS:
+            return {...state, isLoading: false, error: null, users: action.payload};
+        case UsersActionType.SET_ERROR:
+            return {...state, isLoading: false, error: action.payload};
+        case UsersActionType.ADD_USER:
+            return {...state, isLoading: false, error: null, users: [...state.users, action.payload]};
+        case UsersActionType.UPDATE_USER:
+            return {
+                ...state,
+                isLoading: false,
+                error: null,
+                users: [state.users.map((user) => user.id === action.payload.id ? {...action.payload} : {...user})]
+            };
+        case UsersActionType.REMOVE_USER:
+            return {
+                ...state,
+                isLoading: false,
+                error: null,
+                users: [...state.users.filter((user) => user.id !== action.payload)]
+            }
         default: return state;
     }
 }

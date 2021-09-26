@@ -2,48 +2,61 @@ import {UsersActionType} from "../types";
 import UsersService from "../../api/UsersService";
 
 const UsersActionCreator = {
-    setUsersLoading: () => {
-        return {type: UsersActionType.FETCH_USERS}
+    showLoader: () => {
+        return {type: UsersActionType.SET_IS_USERS_LOADING, payload: true}
     },
-    setUsersError: (payload) => {
-        return {type: UsersActionType.FETCH_USERS_ERROR, payload}
+    hideLoader: () => {
+        return {type: UsersActionType.SET_IS_USERS_LOADING, payload: false}
+    },
+    setError: (payload) => {
+        return {type: UsersActionType.SET_USER_ERROR, payload}
     },
     setUsers: (payload) => {
-        return {type: UsersActionType.FETCH_USERS_SUCCESSFULLY, payload}
+        return {type: UsersActionType.SET_USERS, payload}
     },
     fetchUsers: () => async (dispatch) => {
-        dispatch(UsersActionCreator.setUsersLoading());
+        dispatch(UsersActionCreator.showLoader());
         try {
             const response = await UsersService.fetchUsers();
             dispatch(UsersActionCreator.setUsers(response?.data))
         } catch (e) {
-            dispatch(UsersActionCreator.setUsersError());
+            dispatch(UsersActionCreator.setError(e));
         }
     },
     addUser: ({username, password}) => async (dispatch) => {
+        dispatch(UsersActionCreator.showLoader());
         try {
-            dispatch({type: UsersActionType.ADDING_USER});
-
             const response = await UsersService.addUser(username, password);
 
             if (response?.data) {
-                dispatch({type: UsersActionType.ADDING_USER_SUCCESSFULLY});
+                dispatch({type: UsersActionType.ADD_USER, payload: response?.data});
             }
         } catch (e) {
-            dispatch({type: UsersActionType.ADDING_USER_ERROR, payload: e});
+            dispatch(UsersActionCreator.setError(e));
         }
     },
-    updateUser: ({id, username, password}) => async (dispatch) => {
+    updateUser: ({id, username, password, avatar}) => async (dispatch) => {
+        dispatch(UsersActionCreator.showLoader());
         try {
-            dispatch({type: UsersActionType.UPDATING_USER});
-
-            const response = await UsersService.updateUser(id, username, password);
+            const response = await UsersService.updateUser(id, username, password, avatar);
 
             if (response?.data) {
-                dispatch({type: UsersActionType.UPDATING_USER_SUCCESSFULLY});
+                dispatch({type: UsersActionType.UPDATE_USER, payload: response.data});
             }
         } catch (e) {
-            dispatch({type: UsersActionType.FETCH_USERS_SUCCESSFULLY, payload: e});
+            dispatch(UsersActionCreator.setError(e));
+        }
+    },
+    deleteUser: (id) => async (dispatch) => {
+        dispatch(UsersActionCreator.showLoader());
+        try {
+            const response = await UsersService.deleteUser(id);
+
+            if (response?.data) {
+                dispatch({type: UsersActionType.REMOVE_USER, payload: id});
+            }
+        } catch (e) {
+            dispatch(UsersActionCreator.setError(e));
         }
     }
 };

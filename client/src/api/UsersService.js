@@ -9,11 +9,11 @@ export default class UsersService {
         return $api.post('/api/v1/users', {username, password});
     }
 
-    static async updateUser(id, username, password) {
+    static async updateUser(id, username, password, avatar) {
         return $api.put('/api/v1/users/' + id, {username, password});
     }
 
-    static async deleteUser(id, username, password) {
+    static async deleteUser(id) {
         return $api.delete('/api/v1/users/' + id);
     }
 }

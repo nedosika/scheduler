@@ -24,14 +24,22 @@ export default class AuthService {
             throw new Error(`Введен неверный пароль`);
             //return res.status(400).json({message: `Введен неверный пароль`})
         }
+        const token = generateAccessToken(user._id, user.roles);
 
         const userDto = new UserDTO(user);
 
-        const token = generateAccessToken(user._id, user.roles);
         return {token, user: userDto}
     }
 
     static registration(username, password) {
 
+    }
+
+    static async auth(id){
+        const user = await User.findOne({_id: id});
+        const token = generateAccessToken(user._id, user.roles);
+        const userDto = new UserDTO(user);
+
+        return {token, user: userDto}
     }
 }

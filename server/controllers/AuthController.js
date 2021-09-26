@@ -5,7 +5,7 @@ import { validationResult } from "express-validator";
 import AuthService from "../services/AuthService.js";
 
 class AuthController {
-    async registration(req, res) {
+    static async registration(req, res) {
         try {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
@@ -27,7 +27,7 @@ class AuthController {
         }
     }
 
-    async login(req, res) {
+    static async login(req, res) {
         try {
             const {username, password} = req.body;
             const userData  = await AuthService.login(username, password);
@@ -36,6 +36,16 @@ class AuthController {
             res.status(400).json({message: e.message})
         }
     }
+
+    static async checkAuth(req, res){
+        try{
+            const {id} = req.user;
+            const userData = await AuthService.auth(id);
+            res.json(userData);
+        } catch (e) {
+            res.status(400).json({message: e.message})
+        }
+    }
 }
 
-export default new AuthController();
+export default AuthController;

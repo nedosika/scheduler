@@ -14,6 +14,7 @@ import AddIcon from '@mui/icons-material/Add';
 import useActions from "../hooks/useActions";
 import Layout from "../components/Layout";
 import {RouteNames} from "../utils/consts";
+import Stack from "@mui/material/Stack";
 
 
 export default function Users() {
@@ -49,18 +50,25 @@ export default function Users() {
                     })
                 }
             </List>
-            <Fab
-                size="medium"
-                color="secondary"
-                onClick={() => history.push(RouteNames.CREATE_USER)}
-                style={{
-                    position: 'absolute',
+            <Stack
+                direction="row"
+                spacing={2}
+                alignItems="flex-end"
+                justifyContent="flex-end"
+                sx={{
+                    position: "absolute",
                     bottom: 16,
                     right: 16,
                 }}
             >
-                <AddIcon/>
-            </Fab>
+                <Fab
+                    size="medium"
+                    color="secondary"
+                    onClick={() => history.push(RouteNames.CREATE_USER)}
+                >
+                    <AddIcon/>
+                </Fab>
+            </Stack>
         </Layout>
     );
 }

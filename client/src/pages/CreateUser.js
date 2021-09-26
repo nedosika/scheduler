@@ -1,41 +1,45 @@
 import React from 'react';
 import {useHistory} from "react-router-dom";
 
-import Layout from "../components/Layout";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-
 import useActions from "../hooks/useActions";
 import {RouteNames} from "../utils/consts";
+import Layout from "../components/Layout";
+
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import SaveIcon from '@mui/icons-material/Save';
+import Stack from "@mui/material/Stack";
+import Fab from "@mui/material/Fab";
 
 const CreateUser = () => {
     const {addUser} = useActions();
     const history = useHistory();
+    const [state, setState] = React.useState({
+        username: '',
+        password: ''
+    });
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
+    const handleChange = (event) => {
+        setState({
+            ...state,
+            [event.target.name]: event.target.value
+        });
+    };
 
-        addUser({
-            username: data.get('username'),
-            password: data.get('password'),
-        }).then(() => history.push(RouteNames.USERS));
+    const handleSubmit = () => {
+        addUser({...state})
+            .then(() => history.push(RouteNames.USERS));
     };
 
     return (
         <Layout title="Create user">
             <Box
-                component="form"
                 sx={{
                     marginTop: 8,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                 }}
-                noValidate
-                autoComplete="off"
-                onSubmit={handleSubmit}
             >
                 <TextField
                     margin="normal"
@@ -43,6 +47,8 @@ const CreateUser = () => {
                     id="username"
                     label="username"
                     name="username"
+                    value={state.username}
+                    onChange={handleChange}
                     autoFocus
                     fullWidth
                     sx={{
@@ -54,6 +60,8 @@ const CreateUser = () => {
                     margin="normal"
                     required
                     name="password"
+                    value={state.password}
+                    onChange={handleChange}
                     label="Password"
                     type="password"
                     id="password"
@@ -63,15 +71,26 @@ const CreateUser = () => {
                         width: '95%'
                     }}
                 />
-                <Button
-                    type="submit"
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-
-                >
-                    Create
-                </Button>
             </Box>
+            <Stack
+                direction="row"
+                spacing={2}
+                alignItems="flex-end"
+                justifyContent="flex-end"
+                sx={{
+                    position: "absolute",
+                    bottom: 16,
+                    right: 16,
+                }}
+            >
+                <Fab
+                    size="medium"
+                    color="primary"
+                    onClick={handleSubmit}
+                >
+                    <SaveIcon/>
+                </Fab>
+            </Stack>
         </Layout>
     );
 };

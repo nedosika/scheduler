@@ -1,21 +1,21 @@
-const jwt = require('jsonwebtoken')
-const {secret} = require('../config')
+import jwt from "jsonwebtoken"
 
-module.exports = function (req, res, next) {
+export default function (req, res, next) {
     if (req.method === "OPTIONS") {
-        next()
+        next();
     }
 
     try {
-        const token = req.headers.authorization.split(' ')[1]
+        const token = req.headers.authorization.split(' ')[1];
         if (!token) {
-            return res.status(403).json({message: "Пользователь не авторизован"})
+            return res.status(403).json({message: "Пользователь не авторизован"});
         }
-        const decodedData = jwt.verify(token, secret)
-        req.user = decodedData
-        next()
+        const decodedData = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+
+        req.user = decodedData;
+        next();
     } catch (e) {
-        console.log(e)
-        return res.status(403).json({message: "Пользователь не авторизован"})
+        console.log(e);
+        return res.status(403).json({message: "Пользователь не авторизован"});
     }
 };

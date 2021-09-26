@@ -2,24 +2,15 @@ import {AuthActionType} from "../types";
 
 const initialState = {
     isAuth: false,
-    isLoading: false,
-    error: '',
-    user: {}
-}
+    currentUser: {}
+};
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
-        case AuthActionType.LOGGING_USER:
-            return {...state, isLoading: action.payload, error: ''};
-        case AuthActionType.LOGGING_USER_SUCCESSFULLY:
-            return {...state, user: action.payload, isAuth: true, isLoading: false, error: ''};
-        case  AuthActionType.LOGGING_USER_ERROR:
-            return {...state, error: action.payload, isLoading: false, isAuth: false};
-        case AuthActionType.LOGOUT_USER:
-            return {...state, isAuth: false, user: {}}
-        default:
-            return state
+        case AuthActionType.SET_USER: return {...state, currentUser: action.payload, isAuth: true};
+        case  AuthActionType.UNSET_USER: return {...state, currentUser: {}, isAuth: false};
+        default: return state
     }
-}
+};
 
 export default authReducer;

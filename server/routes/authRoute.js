@@ -1,6 +1,7 @@
 import Router from "express";
 import {check} from "express-validator";
 import controller from "../controllers/AuthController.js";
+import authMiddleWare from "../middlewaree/authMiddleware.js";
 
 const router = new Router();
 
@@ -59,5 +60,17 @@ router.post('/registration', [
  *         description: Created
  */
 router.post('/login', controller.login);
+
+/**
+ * @swagger
+ * /check:
+ *   post:
+ *     tags: [Auth]
+ *     description: Login user
+ *     responses:
+ *       200:
+ *         description: Authenticated
+ */
+router.post('/check', authMiddleWare, controller.checkAuth);
 
 export default router;
