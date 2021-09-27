@@ -8,7 +8,6 @@ import Button from "@mui/material/Button";
 
 import useActions from "../hooks/useActions";
 import {RouteNames} from "../utils/consts";
-import {useSelector} from "react-redux";
 import Fab from "@mui/material/Fab";
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -20,33 +19,37 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
 
+import UserService from "../api/UsersService"
+
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
+
 const EditUser = () => {
-    const [selectedFile, setSelectedFile] = React.useState(null);
-    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false);
+    const {id} = useParams();
+    const history = useHistory();
+    const {updateUser, deleteUser} = useActions();
+
     const [state, setState] = React.useState({
         username: '',
-        password: ''
+        password: '',
+        retriedPassword: '',
     });
-
-    const {users} = useSelector(state => state.users);
-    const {updateUser, deleteUser} = useActions();
-    const history = useHistory();
-    const {id} = useParams();
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false);
 
     React.useEffect(() => {
-        const {username, password} = users.filter((user) => user.id === id)[0];
-        setState({
-            username,
-            password
+        UserService.getOneUser(id).then((response) => {
+            setState((prevState) => ({
+                ...prevState,
+                ...response.data,
+                avatar: null
+            }));
         })
-    }, []);
+    }, [id]);
 
     const handleCapture = ({target}) => {
-        setSelectedFile(target.files[0]);
+        setState({...state, avatar: target.files[0]});
     };
 
     const handleChange = (event) => {
@@ -57,7 +60,7 @@ const EditUser = () => {
     };
 
     const handleSubmit = () => {
-        updateUser({...state, id, avatar: selectedFile})
+        updateUser({...state})
             .then(() => history.push(RouteNames.USERS));
     };
 
@@ -82,13 +85,12 @@ const EditUser = () => {
             >
                 <TextField
                     margin="normal"
-                    required
                     id="username"
                     label="username"
                     name="username"
                     autoFocus
                     fullWidth
-                    value={state.username}
+                    value={state.username || ''}
                     onChange={handleChange}
                     sx={{
                         maxWidth: 300,
@@ -97,13 +99,26 @@ const EditUser = () => {
                 />
                 <TextField
                     margin="normal"
-                    required
                     name="password"
                     label="Password"
                     type="password"
                     id="password"
                     fullWidth
-                    value={state.password}
+                    value={state.password || ''}
+                    onChange={handleChange}
+                    sx={{
+                        maxWidth: 300,
+                        width: '95%'
+                    }}
+                />
+                <TextField
+                    margin="normal"
+                    name="retriedPassword"
+                    label="retriedPassword"
+                    type="retriedPassword"
+                    id="retriedPassword"
+                    fullWidth
+                    value={state.retriedPassword || ''}
                     onChange={handleChange}
                     sx={{
                         maxWidth: 300,
@@ -117,7 +132,7 @@ const EditUser = () => {
                         marginTop: 2
                     }}
                 >
-                    {selectedFile ? selectedFile.name : "Select Image"}
+                    {state.avatar ? state.avatar.name : "Select Image"}
                     <input
                         type="file"
                         hidden
@@ -136,7 +151,6 @@ const EditUser = () => {
                     right: 16,
                 }}
             >
-
                 <Fab
                     size="medium"
                     color="secondary"

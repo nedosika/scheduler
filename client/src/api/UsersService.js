@@ -24,4 +24,8 @@ export default class UsersService {
     static async deleteUser(id) {
         return $api.delete('/api/v1/users/' + id);
     }
+
+    static async getOneUser(id) {
+        return  $api.get('/api/v1/users/' + id);
+    }
 }
