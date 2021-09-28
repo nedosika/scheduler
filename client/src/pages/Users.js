@@ -25,7 +25,8 @@ export default function Users() {
     const history = useHistory();
 
     React.useEffect(() => {
-        fetchUsers();
+        if(users.length === 0)
+            fetchUsers();
     }, []);
 
     return (

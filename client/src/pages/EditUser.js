@@ -61,7 +61,9 @@ const EditUser = () => {
 
     const handleSubmit = () => {
         updateUser({...state})
-            .then(() => history.push(RouteNames.USERS));
+            .then(() => {
+                history.push(RouteNames.USERS)
+            });
     };
 
     const handleDeleteUser = () => {

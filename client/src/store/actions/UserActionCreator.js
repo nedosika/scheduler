@@ -42,7 +42,8 @@ const UsersActionCreator = {
         try {
             const response = await UsersService.updateUser(id, username, password, avatar);
             if (response?.data) {
-                dispatch({type: UsersActionType.UPDATE_USER, payload: {id, username, password, avatar: avatar?.name}});
+                const updatedUser = {...response.data};
+                dispatch({type: UsersActionType.UPDATE_USER, payload: updatedUser});
             }
         } catch (e) {
             dispatch(UsersActionCreator.setError(e));

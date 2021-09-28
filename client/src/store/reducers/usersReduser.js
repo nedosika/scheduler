@@ -21,7 +21,7 @@ const usersReducer = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 error: null,
-                users: [state.users.map((user) => user.id === action.payload.id ? {...action.payload} : {...user})]
+                users: state.users.map((user) => user.id === action.payload.id ? {...action.payload} : {...user})
             };
         case UsersActionType.REMOVE_USER:
             return {

@@ -57,9 +57,12 @@ class UserService {
     static async updateUser(id, user, avatar) {
         const fileName = await FileService.saveFile(avatar);
         const hashPassword = bcrypt.hashSync(user.password, 7);
-        const updatedUser = await User.findOneAndUpdate({_id: id}, {...user, avatar: fileName, password: hashPassword});
+        await User.update(
+                {_id: id},
+                {...user, avatar: fileName, password: hashPassword},
+            );
 
-        return new UserDTO(updatedUser);
+        return new UserDTO({...user, avatar: fileName, _id: id});
     }
 
     static async removeUser(id) {
