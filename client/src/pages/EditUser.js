@@ -20,6 +20,7 @@ import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
 
 import UserService from "../api/UsersService"
+import {useSelector} from "react-redux";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -30,6 +31,7 @@ const EditUser = () => {
     const {id} = useParams();
     const history = useHistory();
     const {updateUser, deleteUser} = useActions();
+    const {users} = useSelector(state => state.users)
 
     const [state, setState] = React.useState({
         username: '',
@@ -39,13 +41,18 @@ const EditUser = () => {
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false);
 
     React.useEffect(() => {
-        UserService.getOneUser(id).then((response) => {
-            setState((prevState) => ({
-                ...prevState,
-                ...response.data,
-                avatar: null
-            }));
+        const user = users.filter(user => user.id === id)[0];
+        setState({
+            ...user,
+            avatar: null
         })
+        // UserService.getOneUser(id).then((response) => {
+        //     setState((prevState) => ({
+        //         ...prevState,
+        //         ...response.data,
+        //         avatar: null
+        //     }));
+        // })
     }, [id]);
 
     const handleCapture = ({target}) => {

@@ -17,7 +17,7 @@ export default function ButtonAppBar() {
     return (
         isLoading
             ?
-            <Backdrop sx={{color: '#fff'}} open={isLoading}>
+            <Backdrop sx={{color: '#fff'}} open>
                 <CircularProgress color="inherit"/>
             </Backdrop>
             :
