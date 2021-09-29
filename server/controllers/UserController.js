@@ -1,13 +1,16 @@
+import bcrypt from "bcryptjs";
+
 import UsersService from "../services/UserService.js";
 import {validationResult} from "express-validator";
+import FileService from "../services/FileService.js";
 
 class UserController {
     async getAll(req, res) {
         try {
             const users = await UsersService.getAll();
-            res.json(users);
+            res.status(200).json(users);
         } catch (e) {
-            console.log(e);
+            res.status(500).json(e);
         }
     }
 
@@ -21,38 +24,44 @@ class UserController {
             const avatar = req.files?.avatar;
 
             const user = await UsersService.addUser(newUser, avatar);
-            res.json(user);
+            res.status(201).json(user);
         } catch (e) {
-            res.status(400).json({message: e.message});
+            res.status(500).json(e);
         }
     }
 
     async getOne(req, res) {
         try {
-            const user = await UsersService.getUserById(req.params.id)
-            return res.json(user)
+            const user = await UsersService.getUserById(req.params.id);
+
+            return res.status(200).json(user);
         } catch (e) {
-            res.status(500).json(e)
+            res.status(500).json(e);
         }
     }
 
     async update(req, res) {
         try {
-            const userId = req.params.id;
-            const updatedUser = req.body;
-            const avatar = req.files?.avatar;
+            if(req.body?.password){
+                req.body.password = bcrypt.hashSync(req.body.password, 7);
+            }
 
-            const user = await UsersService.updateUser(userId, updatedUser, avatar);
-            return res.json(user);
+            if(req.files?.avatar){
+                req.body.avatar = await FileService.saveFile(req.files?.avatar);
+            }
+
+            const user = await UsersService.updateUser(req.params.id, req.body);
+
+            return res.status(200).json(user);
         } catch (e) {
-            res.status(500).json(e.message)
+            res.status(500).json(e.message);
         }
     }
 
     async delete(req, res) {
         try {
             const user = await UsersService.removeUser(req.params.id);
-            return res.json(user)
+            return res.status(200).json(user)
         } catch (e) {
             res.status(500).json(e)
         }

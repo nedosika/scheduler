@@ -15,7 +15,12 @@ const usersReducer = (state = initialState, action) => {
         case UsersActionType.SET_ERROR:
             return {...state, isLoading: false, error: action.payload};
         case UsersActionType.ADD_USER:
-            return {...state, isLoading: false, error: null, users: [...state.users, action.payload]};
+            return {
+                ...state,
+                isLoading: false,
+                error: null,
+                users: [...state.users, action.payload]
+            };
         case UsersActionType.UPDATE_USER:
             return {
                 ...state,

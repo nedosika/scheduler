@@ -46,11 +46,15 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 const start = async () => {
     try {
-        await mongoose.connect(process.env.DB_URL);
-        app.listen(PORT, () => console.log(`server started on port ${PORT}`));
+        await mongoose.connect(process.env.DB_URL, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useFindAndModify: false
+        });
+        app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
     } catch (e) {
         console.log(e);
     }
-}
+};
 
 start();

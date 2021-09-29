@@ -1,36 +1,26 @@
 import bcrypt from "bcryptjs";
 
-import User from "../models/User.js";
-import UserDTO from "../dtos/UserDTO.js";
-import Role from "../models/Role.js";
 import FileService from "./FileService.js";
+import UserDTO from "../dtos/UserDTO.js";
+import User from "../models/User.js";
+import Role from "../models/Role.js";
+
 
 class UserService {
     static async getAll() {
-        try {
-            const users = await User.find();
-            return users.map((user) => new UserDTO(user));
-        } catch (e) {
-            console.log(e)
-        }
+        const users = await User.find();
+        return users.map((user) => new UserDTO(user));
     }
 
     static async getUserById(id) {
-        try {
-            const user = await User.findOne({_id: id});
-            return new UserDTO(user);
-        } catch (e) {
-            console.log(e)
-        }
+        const user = await User.findOne({_id: id});
+        return new UserDTO(user);
+
     }
 
     static async getUserByName(username) {
-        try {
-            const user = await User.findOne({username});
-            return new UserDTO(user);
-        } catch (e) {
-            console.log(e)
-        }
+        const user = await User.findOne({username});
+        return new UserDTO(user);
     }
 
     static async addUser({username, password}, avatar) {
@@ -54,20 +44,19 @@ class UserService {
         return new UserDTO(user);
     }
 
-    static async updateUser(id, user, avatar) {
-        const fileName = await FileService.saveFile(avatar);
-        const hashPassword = bcrypt.hashSync(user.password, 7);
-        await User.update(
-                {_id: id},
-                {...user, avatar: fileName, password: hashPassword},
-            );
+    static async updateUser(id, user) {
+        const updatedUser = await User.findOneAndUpdate(
+            {_id: id},
+            user, {new: true}
+        );
 
-        return new UserDTO({...user, avatar: fileName, _id: id});
+        return new UserDTO(updatedUser);
     }
 
     static async removeUser(id) {
-        const removedUser = await User.findOneAndDelete({_id: id});
-        return new UserDTO(removedUser);
+        const user = await User.findOneAndDelete({_id: id});
+        console.log(user)
+        return new UserDTO(user);
     }
 }
 
