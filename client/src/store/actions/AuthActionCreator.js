@@ -8,47 +8,44 @@ const AuthActionCreator = {
         localStorage.removeItem('auth');
         return {type: AuthActionType.UNSET_USER}
     },
-    login: ({username, password}) => async (dispatch) => {
-        try {
-            dispatch(AppActionCreator.showLoader());
-            const response = await AuthService.login(username, password);
-
-            if (response?.data) {
-                localStorage.setItem('auth', JSON.stringify({
-                    token: response?.data?.token,
-                    user: {
-                        username: response?.data?.user?.username
+    login: ({username, password}) => (dispatch) => {
+        dispatch(AppActionCreator.showLoader());
+        return AuthService.login(username, password)
+            .then((response) => {
+                    if (response?.data) {
+                        localStorage.setItem('auth', JSON.stringify({
+                            token: response?.data?.token,
+                            user: {
+                                username: response?.data?.user?.username
+                            }
+                        }));
+                        dispatch(AuthActionCreator.setUser({username}));
                     }
-                }));
-                dispatch(AuthActionCreator.setUser({username}));
-            }
-        } catch (e) {
-            alert(e.response?.data?.message);
-        } finally {
-            dispatch(AppActionCreator.hideLoader())
-        }
+            })
+            .catch((e) => dispatch(AppActionCreator.showError(e)))
+            .finally(() => dispatch(AppActionCreator.hideLoader()))
     },
     checkAuth: () => async (dispatch) => {
-        try {
-            dispatch(AppActionCreator.showLoader());
-            const response = await AuthService.checkAuth();
+        dispatch(AppActionCreator.showLoader());
 
-            if (response?.data) {
-                localStorage.setItem('auth', JSON.stringify({
-                    token: response?.data?.token,
-                    user: {
-                        username: response?.data?.user?.username
-                    }
-                }));
-                dispatch(AuthActionCreator.setUser({username: response?.data?.user?.username}));
-            }
-        } catch (e) {
-            localStorage.removeItem('auth');
-            alert(e.response?.data?.message);
-        } finally {
-            dispatch(AppActionCreator.hideLoader())
-        }
+        AuthService.checkAuth()
+            .then((response) => {
+                if (response?.data) {
+                    localStorage.setItem('auth', JSON.stringify({
+                        token: response?.data?.token,
+                        user: {
+                            username: response?.data?.user?.username
+                        }
+                    }));
+                    dispatch(AuthActionCreator.setUser({username: response?.data?.user?.username}));
+                }
+            })
+            .catch((e) => {
+                console.log(e.response?.data?.message);
+                localStorage.removeItem('auth');
+            })
+            .finally(() => dispatch(AppActionCreator.hideLoader()))
     }
-}
+};
 
 export default AuthActionCreator;
