@@ -2,11 +2,8 @@ import {UsersActionType} from "../types";
 import UsersService from "../../api/UsersService";
 
 const UsersActionCreator = {
-    showLoader: () => {
-        return {type: UsersActionType.SET_IS_USERS_LOADING, payload: true}
-    },
-    hideLoader: () => {
-        return {type: UsersActionType.SET_IS_USERS_LOADING, payload: false}
+    setIsUsersLoader: (payload) => {
+        return {type: UsersActionType.SET_IS_USERS_LOADING, payload}
     },
     setError: (payload) => {
         return {type: UsersActionType.SET_USER_ERROR, payload}
@@ -14,33 +11,29 @@ const UsersActionCreator = {
     setUsers: (payload) => {
         return {type: UsersActionType.SET_USERS, payload}
     },
-    fetchUsers: () => (dispatch) => {
-        dispatch(UsersActionCreator.showLoader());
+    getUsers: () => (dispatch) => {
+        dispatch(UsersActionCreator.setIsUsersLoader(true));
         return UsersService.fetchUsers()
             .then((response) => dispatch(UsersActionCreator.setUsers(response?.data)))
             .catch((e) => dispatch(UsersActionCreator.setError(e)))
-            .finally(() => dispatch(UsersActionCreator.hideLoader()))
     },
     addUser: ({username, password}) => (dispatch) => {
-        dispatch(UsersActionCreator.showLoader());
+        dispatch(UsersActionCreator.setIsUsersLoader(true));
         return UsersService.addUser(username, password)
             .then(({data}) => dispatch({type: UsersActionType.ADD_USER, payload: data}))
             .catch((e) => dispatch(UsersActionCreator.setError(e)))
-            .finally(() => dispatch(UsersActionCreator.hideLoader()))
     },
     updateUser: ({id, username, password, avatar}) => (dispatch) => {
-        dispatch(UsersActionCreator.showLoader());
+        dispatch(UsersActionCreator.setIsUsersLoader(true));
         return UsersService.updateUser(id, username, password, avatar)
             .then(({data}) => dispatch({type: UsersActionType.UPDATE_USER, payload: data}))
             .catch((e) => dispatch(UsersActionCreator.setError(e)))
-            .finally(() => dispatch(UsersActionCreator.hideLoader()))
     },
     deleteUser: (id) => (dispatch) => {
-        dispatch(UsersActionCreator.showLoader());
+        dispatch(UsersActionCreator.setIsUsersLoader(true));
         return UsersService.deleteUser(id)
             .then(({data}) => dispatch({type: UsersActionType.REMOVE_USER, payload: data.id}))
             .catch((e) => dispatch(UsersActionCreator.setError(e)))
-            .finally(() => dispatch(UsersActionCreator.hideLoader()))
     }
 };
 

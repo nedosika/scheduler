@@ -12,9 +12,9 @@ import {
 const getMenuItems = () => {
     return [
         {
-            primaryText: 'Administration',
-            value: '/users',
             visible: true,
+            primaryText: 'Users',
+            value: '/users',
             primaryTogglesNestedList: true,
             leftIcon: <Slideshow/>,
             nestedItems: [
@@ -46,7 +46,8 @@ const getMenuItems = () => {
         },
         {
             visible: true,
-            primaryText: 'settings',
+            primaryText: 'Schedules',
+            value: '/schedules',
             primaryTogglesNestedList: true,
             leftIcon: <SettingsIcon />,
             nestedItems: [

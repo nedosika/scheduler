@@ -9,14 +9,28 @@ const initialState = {
 const usersReducer = (state = initialState, action) => {
     switch (action.type) {
         case UsersActionType.SET_IS_USERS_LOADING:
-            return {...state, isLoading: action.payload, error: null};
+            return {
+                ...state,
+                isLoading: action.payload,
+                error: null
+            };
+        case UsersActionType.SET_USER_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+                error: action.payload
+            };
         case UsersActionType.SET_USERS:
-            return {...state, error: null, users: action.payload};
-        case UsersActionType.SET_ERROR:
-            return {...state, error: action.payload};
+            return {
+                ...state,
+                isLoading: false,
+                error: null,
+                users: action.payload
+            };
         case UsersActionType.ADD_USER:
             return {
                 ...state,
+                isLoading: false,
                 error: null,
                 users: [...state.users, action.payload]
             };
@@ -24,14 +38,16 @@ const usersReducer = (state = initialState, action) => {
             return {
                 ...state,
                 error: null,
+                isLoading: false,
                 users: state.users.map((user) => user.id === action.payload.id ? {...action.payload} : {...user})
             };
         case UsersActionType.REMOVE_USER:
             return {
                 ...state,
                 error: null,
+                isLoading: false,
                 users: [...state.users.filter((user) => user.id !== action.payload)]
-            }
+            };
         default: return state;
     }
 }

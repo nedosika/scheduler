@@ -21,12 +21,12 @@ import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 
 export default function Users() {
     const {users, isLoading} = useSelector(state => state.users);
-    const {fetchUsers} = useActions();
+    const {getUsers} = useActions();
     const history = useHistory();
 
     React.useEffect(() => {
         if(users.length === 0)
-            fetchUsers();
+            getUsers();
     }, []);
 
     return (
@@ -43,7 +43,7 @@ export default function Users() {
                             return (
                                 <React.Fragment key={id}>
                                     <ListItemButton alignItems="flex-start" onClick={() => {
-                                        history.push(`${RouteNames.EDIT_USER}/${id}`)
+                                        history.push(`${RouteNames.USERS}/${id}`)
                                     }}>
                                         <ListItemAvatar>
                                             <Avatar alt="Remy Sharp"

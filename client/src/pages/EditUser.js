@@ -31,29 +31,13 @@ const EditUser = () => {
     const {id} = useParams();
     const history = useHistory();
     const {updateUser, deleteUser} = useActions();
-    const {users} = useSelector(state => state.users)
-
+    const user = useSelector(state => state.users.users.find((user) => user.id === id));
+    console.log(user, id)
     const [state, setState] = React.useState({
-        username: '',
-        password: '',
-        retriedPassword: '',
+        ...user,
+        avatar: null
     });
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false);
-
-    React.useEffect(() => {
-        const user = users.filter(user => user.id === id)[0];
-        setState({
-            ...user,
-            avatar: null
-        })
-        // UserService.getOneUser(id).then((response) => {
-        //     setState((prevState) => ({
-        //         ...prevState,
-        //         ...response.data,
-        //         avatar: null
-        //     }));
-        // })
-    }, [id]);
 
     const handleCapture = ({target}) => {
         setState({...state, avatar: target.files[0]});
