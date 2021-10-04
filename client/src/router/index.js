@@ -19,4 +19,14 @@ export const privateRoutes = [
     {path: `${RouteNames.SCHEDULES}/:id`, component: Schedules, exact: true},
 ];
 
+export const routes = [
+    {path: RouteNames.LOGIN, component: SignIn, exact: true},
+    {path: RouteNames.HOME, component: SignIn, exact: true},
+    {path: RouteNames.USERS, component: Users, exact: true, private: true},
+    {path: RouteNames.CREATE_USER, component: CreateUser, exact: true, private: true},
+    {path: `${RouteNames.USERS}/:id`, component: EditUser, exact: true, private: true},
+    {path: RouteNames.SCHEDULES, component: Schedules, exact: true, private: true},
+    {path: RouteNames.CREATE_SCHEDULE, component: Schedules, exact: true, private: true},
+    {path: `${RouteNames.SCHEDULES}/:id`, component: Schedules, exact: true, private: true},
+]
 
