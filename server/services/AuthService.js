@@ -14,7 +14,6 @@ const generateAccessToken = (id, roles) => {
 
 export default class AuthService {
     static async login(username, password) {
-        console.log(password)
         const user = await User.findOne({username});
         if (!user) {
             throw new Error(`Пользователь ${username} не найден`);

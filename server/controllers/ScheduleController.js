@@ -12,11 +12,10 @@ class ScheduleController {
 
     static async create(req, res) {
         try {
-            const newSchedule = req.body;
+            console.log(req.body)
+            const addedSchedule = await ScheduleService.addSchedule(req.body);
 
-            const schedule = await ScheduleService.addSchedule(newSchedule);
-
-            res.status(201).json(schedule);
+            res.status(201).json(addedSchedule);
         } catch (e) {
             res.status(500).json(e);
         }

@@ -18,9 +18,9 @@ const SchedulesActionCreator = {
             .then((response) => dispatch(SchedulesActionCreator.setSchedules(response?.data)))
             .catch((e) => dispatch(SchedulesActionCreator.setError(e)))
     },
-    addSchedule: ({title, description, schedules, date}) => (dispatch) => {
+    addSchedule: (schedule) => (dispatch) => {
         dispatch(SchedulesActionCreator.setSchedulesIsLoad(true));
-        return SchedulesService.addSchedule(title, description, schedules, date)
+        return SchedulesService.addSchedule(schedule)
             .then(({data}) => dispatch({type: schedulesActionType.ADD_SCHEDULE, payload: data}))
             .catch((e) => dispatch(SchedulesActionCreator.setError(e)))
     },

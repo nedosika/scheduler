@@ -26,7 +26,7 @@ const CreateSchedule = () => {
     const handleSubmit = () => {
         const {title, description} = state;
 
-        addSchedule(title, description)
+        addSchedule({title, description})
             .then(() => history.push(RouteNames.SCHEDULES))
     };
 
