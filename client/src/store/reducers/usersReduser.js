@@ -14,7 +14,7 @@ const usersReducer = (state = initialState, action) => {
                 isLoading: action.payload,
                 error: null
             };
-        case UsersActionType.SET_USER_ERROR:
+        case UsersActionType.SET_USERS_ERROR:
             return {
                 ...state,
                 isLoading: false,

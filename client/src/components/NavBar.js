@@ -153,7 +153,7 @@ const NavBar = ({title}) => {
                 <Box sx={{width: 240}}>
                     <List>
                         {menuItems.map(({primaryText, leftIcon, value}) => (
-                            <ListItem button key={primaryText} onClick={() => history.push(value)}>
+                            <ListItem button selected={} key={primaryText} onClick={() => history.push(value)}>
                                 <ListItemIcon>
                                     {leftIcon}
                                 </ListItemIcon>
