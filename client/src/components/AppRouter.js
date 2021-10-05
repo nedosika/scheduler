@@ -2,7 +2,7 @@ import React from "react";
 
 import {Switch} from "react-router-dom";
 
-import {privateRoutes, publicRoutes, routes} from "../router";
+import {routes} from "../router";
 
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
