@@ -32,7 +32,7 @@ const schedulesReducer = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 error: null,
-                schedules: [...state.users, action.payload]
+                schedules: [...state.schedules, action.payload]
             };
         case schedulesActionType.UPDATE_SCHEDULE:
             return {

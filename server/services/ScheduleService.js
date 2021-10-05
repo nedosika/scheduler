@@ -9,11 +9,11 @@ class ScheduleService {
         return  await Schedule.findOne({_id: id});
     }
 
-    static async getScheduleByName(username) {
-        return  await Schedule.findOne({username});
+    static async getScheduleByName(title) {
+        return  await Schedule.findOne({title});
     }
 
-    static async addSchedule({title, desc}) {
+    static async addSchedule({title, description}) {
         const newSchedule = await Schedule.findOne({title});
 
         if (newSchedule) {
@@ -22,7 +22,7 @@ class ScheduleService {
 
         const schedule = new Schedule({
             title,
-            desc
+            description
         });
         await schedule.save();
 
@@ -32,7 +32,8 @@ class ScheduleService {
     static async updateSchedule(id, schedule) {
         return await Schedule.findOneAndUpdate(
             {_id: id},
-            schedule, {new: true}
+            schedule,
+            {new: true}
         );
     }
 

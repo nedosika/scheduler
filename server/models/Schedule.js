@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const Schedule = new mongoose.Schema({
     title: {type: String, unique: true, required: true},
-    desc: {type: String},
+    description: {type: String},
     days: [
         {
             userId: {type: String},
