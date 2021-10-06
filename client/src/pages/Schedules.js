@@ -35,10 +35,10 @@ const Schedules = () => {
                     </Backdrop>
                     : <List sx={{width: '95%', margin: '0 auto', marginTop: 1, bgcolor: 'background.paper'}}>
                         {
-                            schedules.map(({id, title, description}, index) => {
+                            schedules.map(({_id: id, title, description}, index) => {
                                 return (
                                     <React.Fragment key={id}>
-                                        <ListItemButton alignItems="flex-start" onClick={() => {
+                                        <ListItemButton onClick={() => {
                                             history.push(`${RouteNames.SCHEDULES}/${id}`)
                                         }}>
                                             <ListItemText
@@ -46,7 +46,7 @@ const Schedules = () => {
                                                 secondary={description}
                                             />
                                         </ListItemButton>
-                                        {index < schedules.length - 1 && <Divider variant="inset" component="li"/>}
+                                        {index < schedules.length - 1 && <Divider component="li"/>}
                                     </React.Fragment>
                                 );
                             })
