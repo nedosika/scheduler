@@ -27,7 +27,7 @@ const Schedules = () => {
     }, []);
 
     return (
-        <Layout title='Schedules'>
+        <Layout title="Schedules" isShowBackBtn={false}>
             {
                 isLoading
                     ? <Backdrop sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}} open={isLoading}>

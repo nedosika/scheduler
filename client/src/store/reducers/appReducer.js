@@ -2,7 +2,7 @@ import {AppActionType} from "../types";
 
 const initialState = {
     isLoading: false,
-    error: null
+    error: null,
 };
 
 const appReducer = (state = initialState, action) => {

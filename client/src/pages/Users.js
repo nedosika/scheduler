@@ -18,11 +18,12 @@ import Stack from "@mui/material/Stack";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 
-
 export default function Users() {
     const {users, isLoading} = useSelector(state => state.users);
     const {getUsers} = useActions();
     const history = useHistory();
+
+    console.log(history.location)
 
     React.useEffect(() => {
         if(users.length === 0)

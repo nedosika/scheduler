@@ -23,5 +23,5 @@ export const schedulesActionType = {
 
 export const AppActionType = {
     SET_IS_LOADING: "SET_IS_LOADING",
-    SET_ERROR: "SET_ERROR"
+    SET_ERROR: "SET_ERROR",
 };

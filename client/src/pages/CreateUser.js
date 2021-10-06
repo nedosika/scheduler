@@ -38,7 +38,7 @@ const CreateUser = () => {
     };
 
     return (
-        <Layout title="Create user">
+        <Layout title="Create user" backButton>
             <Box
                 sx={{
                     marginTop: 8,

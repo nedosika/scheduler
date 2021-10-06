@@ -1,13 +1,10 @@
 import React from 'react';
+import {useSelector} from "react-redux";
 import {useHistory, useParams} from "react-router-dom";
 
-import Layout from "../components/Layout";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-
-import useActions from "../hooks/useActions";
-import {RouteNames} from "../utils/consts";
 import Fab from "@mui/material/Fab";
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -19,20 +16,21 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
 
-import UserService from "../api/UsersService"
-import {useSelector} from "react-redux";
+import BackButton from "../components/BackButton";
+import useActions from "../hooks/useActions";
+import {RouteNames} from "../utils/consts";
+import Layout from "../components/Layout";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
-
 
 const EditUser = () => {
     const {id} = useParams();
     const history = useHistory();
     const {updateUser, deleteUser} = useActions();
     const user = useSelector(state => state.users.users.find((user) => user.id === id));
-    console.log(user, id)
+
     const [state, setState] = React.useState({
         ...user,
         avatar: null
@@ -67,7 +65,7 @@ const EditUser = () => {
     };
 
     return (
-        <Layout title="Edit user">
+        <Layout title="Edit user" backButton>
             <Box
                 sx={{
                     marginTop: 8,

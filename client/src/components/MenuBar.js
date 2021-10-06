@@ -1,8 +1,5 @@
 import * as React from "react";
-import {useHistory, useLocation} from "react-router-dom";
-
-import useActions from "../hooks/useActions";
-import getMenuItems from "../config/menuItems";
+import {useHistory} from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -15,17 +12,16 @@ import ListItemText from "@mui/material/ListItemText/ListItemText";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 
-const MenuBar = ({open, handleClose}) => {
-    const menuItems = getMenuItems();
-    const {logout} = useActions();
+import useActions from "../hooks/useActions";
+
+const MenuBar = ({items, isOpen, hide, logout}) => {
     const history = useHistory();
-    const location = useLocation();
 
     return (
         <Drawer
             anchor="left"
-            open={open}
-            onClose={handleClose}
+            open={isOpen}
+            onClose={hide}
         >
             <div style={{
                 display: 'flex',
@@ -33,17 +29,17 @@ const MenuBar = ({open, handleClose}) => {
                 justifyContent: 'flex-end',
                 padding: 12
             }}>
-                <IconButton onClick={handleClose}>
+                <IconButton onClick={hide}>
                     <ChevronLeftIcon/>
                 </IconButton>
             </div>
             <Divider/>
             <Box sx={{width: 240}}>
                 <List>
-                    {menuItems.map(({primaryText, leftIcon, value}) => (
+                    {items.map(({primaryText, leftIcon, value}) => (
                         <ListItem
                             button
-                            selected={value.split('/')[1] === location.pathname.split('/')[1]}
+                            selected={value.split('/')[1] === history.location.pathname.split('/')[1]}
                             key={primaryText}
                             onClick={() => history.push(value)}
                         >

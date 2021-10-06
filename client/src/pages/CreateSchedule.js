@@ -10,6 +10,7 @@ import Box from "@mui/material/Box";
 import SaveIcon from '@mui/icons-material/Save';
 import Stack from "@mui/material/Stack";
 import Fab from "@mui/material/Fab";
+import BackButton from "../components/BackButton";
 
 const CreateSchedule = () => {
     const {addSchedule} = useActions();
@@ -31,7 +32,7 @@ const CreateSchedule = () => {
     };
 
     return (
-        <Layout title="Create schedule">
+        <Layout title="Create schedule" backButton>
             <Box
                 sx={{
                     marginTop: 8,

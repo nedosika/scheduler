@@ -2,17 +2,19 @@ import * as React from "react";
 
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import Badge from "@mui/material/Badge";
-import {AccountCircle} from "@mui/icons-material";
+import Toolbar from "@mui/material/Toolbar";
 import {alpha, styled} from "@mui/material";
-import InputBase from "@mui/material/InputBase/InputBase";
-import SearchIcon from '@mui/icons-material/Search';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import {AccountCircle} from "@mui/icons-material";
+import SearchIcon from '@mui/icons-material/Search';
+import InputBase from "@mui/material/InputBase/InputBase";
+import NotificationsIcon from '@mui/icons-material/Notifications';
+
+import BackButton from "./BackButton";
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -56,7 +58,7 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
     },
 }));
 
-const NavBar = ({title, showMenuBar}) => {
+const NavBar = ({title, backButton, showMenuBar}) => {
     return (
         <AppBar position="static">
             <Toolbar>
@@ -69,6 +71,7 @@ const NavBar = ({title, showMenuBar}) => {
                 >
                     <MenuIcon/>
                 </IconButton>
+                { backButton && <BackButton/> }
                 <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                     {title}
                 </Typography>

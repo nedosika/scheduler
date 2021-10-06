@@ -1,14 +1,19 @@
 import * as React from "react";
+import {useState} from "react";
 
-import CssBaseline from "@mui/material/CssBaseline/CssBaseline";
 import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline/CssBaseline";
 
-import MenuBar from "./MenuBar";
 import NavBar from "./NavBar";
+import MenuBar from "./MenuBar";
+import getMenuItems from "../config/menuItems";
+import useActions from "../hooks/useActions";
 
-const Layout = ({children, title}) => {
-    const [isMenuBarOpen, setIsMenuBarOpen] = React.useState(false);
+const Layout = ({children, title, backButton}) => {
+    const {logout} = useActions();
+    const menuItems = getMenuItems();
 
+    const [isOpenMenuBar, setIsOpenMenuBar] = useState(false);
 
     return (
         <>
@@ -16,11 +21,14 @@ const Layout = ({children, title}) => {
             <Box sx={{flexGrow: 1}}>
                 <NavBar
                     title={title}
-                    showMenuBar={() => setIsMenuBarOpen(true)}
+                    backButton={backButton}
+                    showMenuBar={() => setIsOpenMenuBar(true)}
+                    logout={logout}
                 />
                 <MenuBar
-                    open={isMenuBarOpen}
-                    handleClose={() => setIsMenuBarOpen(false)}
+                    items={menuItems}
+                    isOpen={isOpenMenuBar}
+                    hide={() => setIsOpenMenuBar(false)}
                 />
             </Box>
             {children}
