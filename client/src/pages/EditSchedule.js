@@ -33,8 +33,14 @@ const EditSchedule = () => {
     const {updateSchedule, deleteSchedule} = useActions();
     const schedule = useSelector(state => state.schedules.schedules.find((schedule) => schedule.id === id));
 
+    const today = new Date();
+    const month = today.getMonth();
+
+    const getNumberDaysOfMonth = (month, year) => new Date(year, month, 0).getDate();
+    const numberDaysOfMonth = getNumberDaysOfMonth(month + 1, today.getFullYear());
+
     const days = [];
-    for (let i = 1; i <= 31; i++)
+    for (let i = 1; i <= numberDaysOfMonth; i++)
         days.push(i);
 
     const [state, setState] = React.useState({
@@ -64,6 +70,8 @@ const EditSchedule = () => {
     const handleCloseDeleteDialog = () => {
         setIsDeleteDialogOpen(false);
     };
+
+
 
     return (
         <Layout title="Edit schedule" backButton>
