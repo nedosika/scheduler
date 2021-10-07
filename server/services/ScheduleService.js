@@ -13,20 +13,17 @@ class ScheduleService {
         return  await Schedule.findOne({title});
     }
 
-    static async addSchedule({title, description}) {
-        const newSchedule = await Schedule.findOne({title});
+    static async addSchedule(schedule) {
+        const candidate = await Schedule.findOne({title: schedule.title});
 
-        if (newSchedule) {
+        if (candidate) {
             throw new Error("Already exist");
         }
 
-        const schedule = new Schedule({
-            title,
-            description
-        });
-        await schedule.save();
+        const newSchedule = new Schedule(schedule);
+        await newSchedule.save();
 
-        return schedule;
+        return newSchedule;
     }
 
     static async updateSchedule(id, schedule) {

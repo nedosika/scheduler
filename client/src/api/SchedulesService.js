@@ -5,12 +5,13 @@ export default class SchedulesService {
         return $api.get('/api/v1/schedules');
     }
 
-    static async addSchedule({title, description}) {
+    static async addSchedule({title, description, date}) {
+        console.log(date)
         const formData = new FormData();
         formData.append('title', title);
         formData.append('description', description);
         // formData.append('schedules', schedules);
-        // formData.append('date', date);
+        formData.append('date', date);
         return $api.post('/api/v1/schedules', formData);
     }
 
