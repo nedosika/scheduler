@@ -23,6 +23,19 @@ import Layout from "../components/Layout";
 import Masonry from "@mui/lab/Masonry";
 import MasonryItem from "@mui/lab/MasonryItem";
 
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -32,6 +45,7 @@ const EditSchedule = () => {
     const history = useHistory();
     const {updateSchedule, deleteSchedule} = useActions();
     const schedule = useSelector(state => state.schedules.schedules.find((schedule) => schedule.id === id));
+    const [open, setOpen] = React.useState(false);
 
     const today = new Date();
     const month = today.getMonth();
@@ -72,7 +86,6 @@ const EditSchedule = () => {
     };
 
 
-
     return (
         <Layout title="Edit schedule" backButton>
             <Box
@@ -83,14 +96,83 @@ const EditSchedule = () => {
                     justifyContent: 'center'
                 }}
             >
+
+                {/*<Masonry columns={7} spacing={2} sx={{maxWidth: '50%'}}>*/}
+                {/*    {days.map((item, index) => (*/}
+                {/*        <MasonryItem key={index}>*/}
+                {/*            <Button variant="outlined">{item}</Button>*/}
+                {/*        </MasonryItem>*/}
+                {/*    ))}*/}
+                {/*</Masonry>*/}
+
                 {
-                    <Masonry columns={7} spacing={2} sx={{maxWidth: '50%'}}>
-                        {days.map((item, index) => (
-                            <MasonryItem key={index}>
-                                <Button variant="outlined">{item}</Button>
-                            </MasonryItem>
-                        ))}
-                    </Masonry>
+                    <TableContainer component={Paper}>
+                        <Table aria-label="collapsible table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell />
+                                    <TableCell>User</TableCell>
+                                    {
+                                        days.map((item) => <TableCell align="right">{item}</TableCell>)
+                                    }
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                <React.Fragment>
+                                    <TableRow sx={{'& > *': {borderBottom: 'unset'}}}>
+                                        <TableCell>
+                                            <IconButton
+                                                aria-label="expand row"
+                                                size="small"
+                                                onClick={() => setOpen(!open)}
+                                            >
+                                                {open ? <KeyboardArrowUpIcon/> : <KeyboardArrowDownIcon/>}
+                                            </IconButton>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            User
+                                        </TableCell>
+                                        {
+                                            days.map((item) => <TableCell align="right">{item}</TableCell>)
+                                        }
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={6}>
+                                            <Collapse in={open} timeout="auto" unmountOnExit>
+                                                <Box sx={{margin: 1}}>
+                                                    <Typography variant="h6" gutterBottom component="div">
+                                                        History
+                                                    </Typography>
+                                                    <Table size="small" aria-label="purchases">
+                                                        <TableHead>
+                                                            <TableRow>
+                                                                <TableCell>Date</TableCell>
+                                                                <TableCell>Customer</TableCell>
+                                                                <TableCell align="right">Amount</TableCell>
+                                                                <TableCell align="right">Total price ($)</TableCell>
+                                                            </TableRow>
+                                                        </TableHead>
+                                                        <TableBody>
+                                                            <TableRow>
+                                                                <TableCell component="th" scope="row">
+                                                                    ffff
+                                                                </TableCell>
+                                                                <TableCell>111</TableCell>
+                                                                <TableCell align="right">222</TableCell>
+                                                                <TableCell align="right">
+                                                                    qqq
+                                                                </TableCell>
+                                                            </TableRow>
+                                                        </TableBody>
+                                                    </Table>
+                                                </Box>
+                                            </Collapse>
+                                        </TableCell>
+                                    </TableRow>
+                                </React.Fragment>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 }
             </Box>
             <Stack
