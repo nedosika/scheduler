@@ -25,13 +25,15 @@ const Layout = ({children, title, backButton}) => {
                     showMenuBar={() => setIsOpenMenuBar(true)}
                     logout={logout}
                 />
-                <MenuBar
-                    items={menuItems}
-                    isOpen={isOpenMenuBar}
-                    hide={() => setIsOpenMenuBar(false)}
-                />
             </Box>
-            {children}
+            <Box sx={{marginTop: 10}}>
+                {children}
+            </Box>
+            <MenuBar
+                items={menuItems}
+                isOpen={isOpenMenuBar}
+                hide={() => setIsOpenMenuBar(false)}
+            />
         </>
     );
 }

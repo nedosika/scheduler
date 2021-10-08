@@ -38,7 +38,7 @@ export default function Users() {
                     <CircularProgress color="inherit"/>
                 </Backdrop>
                 :
-                <List sx={{width: '95%', margin: '0 auto', marginTop: 1, bgcolor: 'background.paper'}}>
+                <List sx={{width: '95%', margin: '0 auto', bgcolor: 'background.paper'}}>
                     {
                         users.map(({id, avatar, username, description}, index) => {
                             return (

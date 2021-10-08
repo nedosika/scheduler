@@ -1,4 +1,6 @@
 import Schedule from "../models/Schedule.js";
+import User from "../models/User.js";
+import moment from "moment";
 
 class ScheduleService {
     static async getAll() {
@@ -19,6 +21,24 @@ class ScheduleService {
         if (candidate) {
             throw new Error("Already exist");
         }
+
+        const {date} = schedule;
+
+        console.log(new Date(date))
+
+        const users = await User.find();
+
+        const numberDaysOfMonth = moment(date).daysInMonth();
+        const fullYear = moment(date).format('YYYY');
+        const month = moment(date).format('M');
+
+        console.log(numberDaysOfMonth)
+
+        users.map(({_id}) => {
+            for(let day = 1; day <= numberDaysOfMonth; day++){
+                console.log(moment(`${fullYear}/${month}/${day}`).format('YYYY-MM-DD'))
+            }
+        })
 
         const newSchedule = new Schedule(schedule);
         await newSchedule.save();

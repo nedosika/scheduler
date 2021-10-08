@@ -60,7 +60,7 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 
 const NavBar = ({title, backButton, showMenuBar}) => {
     return (
-        <AppBar position="static">
+        <AppBar position="fixed">
             <Toolbar>
                 <IconButton
                     size="large"

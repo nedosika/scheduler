@@ -11,9 +11,10 @@ import Stack from "@mui/material/Stack";
 import DatePicker from "@mui/lab/DatePicker";
 import SaveIcon from '@mui/icons-material/Save';
 import TextField from "@mui/material/TextField";
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-//import DateFnsUtils from '@date-io/date-fns';
+//import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import DateAdapter from '@mui/lab/AdapterMoment';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
+
 
 const CreateSchedule = () => {
     const {addSchedule} = useActions();
@@ -32,8 +33,7 @@ const CreateSchedule = () => {
     };
 
     const handleSubmit = () => {
-        //const {title, description, date} = state;
-        console.log(state)
+        //console.log(new Date(moment(state.date).format('YYYY-MM-DD')).getMonth());
         addSchedule({...state})
             .then(() => history.push(RouteNames.SCHEDULES))
     };
@@ -77,7 +77,7 @@ const CreateSchedule = () => {
                         width: '95%'
                     }}
                 />
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <LocalizationProvider dateAdapter={DateAdapter}>
                     <DatePicker
                         views={['year', 'month']}
                         label="Year and Month"
