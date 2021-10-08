@@ -30,10 +30,12 @@ const Schedules = () => {
         <Layout title="Schedules" isShowBackBtn={false}>
             {
                 isLoading
-                    ? <Backdrop sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}} open={isLoading}>
+                    ?
+                    <Backdrop sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}} open={isLoading}>
                         <CircularProgress color='inherit'/>
                     </Backdrop>
-                    : <List sx={{width: '95%', margin: '0 auto', marginTop: 1, bgcolor: 'background.paper'}}>
+                    :
+                    <List sx={{width: '95%', margin: '0 auto', marginTop: 1, bgcolor: 'background.paper'}}>
                         {
                             schedules.map(({_id: id, title, description}, index) => {
                                 return (
@@ -59,7 +61,7 @@ const Schedules = () => {
                 alignItems="flex-end"
                 justifyContent="flex-end"
                 sx={{
-                    position: "absolute",
+                    position: "fixed",
                     bottom: 16,
                     right: 16,
                 }}

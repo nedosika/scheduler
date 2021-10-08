@@ -67,11 +67,11 @@ const EditSchedule = () => {
                     marginTop: 8,
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
                 }}
             >
                 {
-                    <TableContainer component={Paper}>
+                    <TableContainer component={Paper} sx={{width: "95%"}}>
                         <Table aria-label="collapsible table">
                             <TableHead>
                                 <TableRow>
