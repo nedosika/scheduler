@@ -1,6 +1,7 @@
 import Schedule from "../models/Schedule.js";
 import User from "../models/User.js";
 import moment from "moment";
+import {WorkShifts} from "../utils/consts.js";
 
 class ScheduleService {
     static async getAll() {
@@ -24,25 +25,29 @@ class ScheduleService {
 
         const {date} = schedule;
 
-        console.log(new Date(date))
-
         const users = await User.find();
 
         const numberDaysOfMonth = moment(date).daysInMonth();
         const fullYear = moment(date).format('YYYY');
         const month = moment(date).format('M');
-
-        console.log(numberDaysOfMonth)
+        const days = [];
 
         users.map(({_id}) => {
             for(let day = 1; day <= numberDaysOfMonth; day++){
-                console.log(moment(`${fullYear}/${month}/${day}`).format('YYYY-MM-DD'))
+                const date = moment(`${fullYear}-${month}-${day}`);
+                const dow = date.day();
+                if(dow === 6 || dow === 0){
+                    days.push({
+                        userId: _id,
+                        date,
+                        workShift: WorkShifts.WEEK_END
+                    })
+                }
             }
-        })
+        });
 
-        const newSchedule = new Schedule(schedule);
+        const newSchedule = new Schedule({...schedule, days});
         await newSchedule.save();
-
         return newSchedule;
     }
 

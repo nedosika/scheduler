@@ -1,0 +1,7 @@
+export const WorkShifts = {
+    WEEK_END: "WEEK_END",
+    FIRST_SHIFT: "FIRST_SHIFT",
+    SECOND_SHIFT: "SECOND_SHIFT",
+    USUALLY_SHIFT: "USUALLY_SHIFT"
+}
+
